@@ -1,0 +1,8 @@
+<script language="javascript" type="text/javascript" src="jquery.js"></script>
+<script language="javascript" type="text/javascript">
+chrome.browserAction.onClicked.addListener(function(tab) {
+	console.log("JetIt Run on background");
+	chrome.tabs.executeScript(tab.id, {file: 'jquery.js'});
+	chrome.tabs.executeScript(tab.id, {file: 'content.js'});
+});
+</script>

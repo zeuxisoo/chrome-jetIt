@@ -3,34 +3,43 @@
  * Create: 2011-03-14 14:07
  */
 
+// Configure
 DEBUG = false;
 
+// Helper
 function debug(message) {
 	if (DEBUG === true) {
 		console.log(message);
 	}
 }
 
-(function($, undefined) {
-	
-	debug("Start JetIt");
-	
-	var $post_block = $(".viewthread:first-child .postmessage .t_msgfont");
-	var id = $post_block.attr("id").replace("postmessage_", "");
-	
-	debug("Block: " + $post_block);
-	debug("ID: " + id);
-	
-	$.ajax({
+function ajax_it(url, data, data_type) {
+	return $.ajax({
 		"header": {
-			"User-Agent": "	Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.15) Gecko/20110303 Firefox/3.6.15",
+			"User-Agent": "	Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.15) Gecko/20110303  Firefox/3.6.15",
 			"X-Alt-Referer": document.location.href
 		},
-		"url": "http://www.getjetso.com/forum/viewthread.php",
-		"data": "action=paging&pid=" + id + "&inajax=1",
+		"url": url,
+		"data": data,
 		"cache": false,
-		"dataType": "xml",
-		"success": function(xml_doc) {
+		"dataType": data_type,
+	});	
+}
+
+// Class
+var getjetso_com = function() {
+	debug('Init getjetso class');
+	
+	this.run = function() {
+		debug('Strat run');
+		
+		var $post_block = $(".viewthread:first-child .postmessage .t_msgfont");
+		var pid = $post_block.attr("id").replace("postmessage_", "");
+		
+		debug("Block: " + $post_block);
+		debug("PID: " + pid);
+		
+		ajax_it("http://www.getjetso.com/forum/viewthread.php", "action=paging&pid=" + pid + "&inajax=1", "xml").success(function(xml_doc) {
 			debug(xml_doc);
 			
 			var content = $("root", xml_doc).text();
@@ -39,8 +48,21 @@ function debug(message) {
 			
 			$post_block.html(content);
 			
-			debug("Ended JetIt");
-		}
-	});
+			debug("Ended Ajax & Changed Content");
+		});
+	}
+};
+
+(function($) {
+	
+	debug("Start JetIt");
+	
+	var instance = new window[window.location.host.replace("www.", "").replace(".", "_")]();
+	
+	debug(instance);
+	
+	instance.run();
+	
+	debug("Ended");
 	
 })(jQuery);

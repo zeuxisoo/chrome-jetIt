@@ -24,7 +24,7 @@ function ajax_it(url, data, data_type) {
 		"url": url,
 		"data": data,
 		"cache": false,
-		"dataType": data_type,
+		"dataType": data_type
 	});	
 }
 

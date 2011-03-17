@@ -1,8 +1,8 @@
 /*
  * Author  : Zeuxis Lo (http://zeuxis.me)
- * Version : 0.2
+ * Version : 0.2.1
  * Create  : 2011-03-14 14:07
- * Modified: 2011-03-15 13:28
+ * Modified: 2011-03-17 16:35
  */
 
 // Configure
@@ -41,7 +41,7 @@ var getjetso_com = function() {
 		debug("Block: " + $post_block);
 		debug("PID: " + pid);
 		
-		ajax_it("http://www.getjetso.com/forum/viewthread.php", "action=paging&pid=" + pid + "&inajax=1", "xml").success(function(xml_doc) {
+		ajax_it("http://" + window.location.host + "/forum/viewthread.php", "action=paging&pid=" + pid + "&inajax=1", "xml").success(function(xml_doc) {
 			debug(xml_doc);
 			
 			var content = $("root", xml_doc).text();
@@ -68,7 +68,7 @@ var tenkucity_com = function() {
 		debug("Block: " + $post_block);
 		debug("PID: " + pid);
 
-		ajax_it("http://tenkucity.com/forum.php", "mod=viewthread&display=true&tid=" + tid + "&viewpid=" + pid + "&inajax=1", "xml").success(function(xml_doc) {
+		ajax_it("http://" + window.location.host + "/forum.php", "mod=viewthread&display=true&tid=" + tid + "&viewpid=" + pid + "&inajax=1", "xml").success(function(xml_doc) {
 			debug(xml_doc);
 			
 			var content = $("root", xml_doc).text();
@@ -95,7 +95,7 @@ var jkforum_net = function() {
 		debug("Block: " + $post_block);
 		debug("PID: " + pid);
 
-		ajax_it("http://www.jkforum.net/forum.php", "mod=viewthread&show=true&tid=" + tid + "&viewpid=" + pid + "&inajax=1", "xml").success(function(xml_doc) {
+		ajax_it("http://" + window.location.host + "/forum.php", "mod=viewthread&show=true&tid=" + tid + "&viewpid=" + pid + "&inajax=1", "xml").success(function(xml_doc) {
 			debug(xml_doc);
 			
 			var content = $("root", xml_doc).text();
@@ -113,8 +113,12 @@ var jkforum_net = function() {
 	
 	debug("Start JetIt");
 	
-	var instance = new window[window.location.host.replace("www.", "").replace(".", "_")]();
+	var hosts = window.location.host.match(/^(?:[0-9a-zA-Z]+\.)?([0-9a-zA-Z]+)\.([0-9a-zA-Z]+)/);
+	var class_name = hosts[1] + "_" + hosts[2];
+	var instance = new window[class_name]();
 	
+	debug(hosts);
+	debug(class_name);
 	debug(instance);
 	
 	instance.run();

@@ -1,12 +1,12 @@
 /*
  * Author  : Zeuxis Lo (http://zeuxis.me)
- * Version : 0.2.1
+ * Version : 0.2.2
  * Create  : 2011-03-14 14:07
- * Modified: 2011-03-17 16:35
+ * Modified: 2011-03-26 06:42
  */
 
 // Configure
-DEBUG = false;
+DEBUG = true;
 
 // Helper
 function debug(message) {
@@ -109,19 +109,51 @@ var jkforum_net = function() {
 	}
 };
 
+var mypagediy_com = function() {
+	debug('Init mypagediy class');
+	
+	this.run = function() {
+		debug('Strat run');
+		
+		$("#hidden-content").show();
+		
+		debug("Not Ajax just hidden content & Changed Content");
+	}
+};
+
+var ideapit_net = function() {
+	debug('Init ideapit class');
+	
+	this.run = function() {
+		debug('Strat run');
+		
+		$("#hiden_content").show();
+		
+		debug("Not Ajax just hidden content & Changed Content");
+	}
+};
+
 (function($) {
 	
 	debug("Start JetIt");
 	
-	var hosts = window.location.host.match(/^(?:[0-9a-zA-Z]+\.)?([0-9a-zA-Z]+)\.([0-9a-zA-Z]+)/);
-	var class_name = hosts[1] + "_" + hosts[2];
-	var instance = new window[class_name]();
+	try {
+		var hosts = window.location.host.match(/^(?:[0-9a-zA-Z]+\.)?([0-9a-zA-Z]+)\.([0-9a-zA-Z]+)/);
+		var class_name = hosts[1] + "_" + hosts[2];
+		var instance = new window[class_name]();
 	
-	debug(hosts);
-	debug(class_name);
-	debug(instance);
+		debug(hosts);
+		debug(class_name);
+		debug(instance);
 	
-	instance.run();
+		instance.run();
+	}catch(e) {
+		if (DEBUG === false) {
+			alert("Not Supported site");
+		}else{
+			debug(e);	
+		}
+	}
 	
 	debug("Ended");
 	

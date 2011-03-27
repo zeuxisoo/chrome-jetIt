@@ -5,8 +5,8 @@
  * Modified: 2011-03-27 10:54
  */
 
-// Configure
-DEBUG = false;
+// Configure (Because optional page added, so commented)
+//var DEBUG = false;
 
 // Helper
 function debug(message) {
@@ -155,7 +155,7 @@ var easybuzzz_fr = function() {
 	}
 };
 
-(function($) {
+(function($) {	
 	
 	debug("Start JetIt");
 	

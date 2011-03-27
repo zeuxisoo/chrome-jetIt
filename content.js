@@ -2,11 +2,11 @@
  * Author  : Zeuxis Lo (http://zeuxis.me)
  * Version : 0.2.2
  * Create  : 2011-03-14 14:07
- * Modified: 2011-03-26 06:42
+ * Modified: 2011-03-27 10:54
  */
 
 // Configure
-DEBUG = true;
+DEBUG = false;
 
 // Helper
 function debug(message) {
@@ -130,6 +130,28 @@ var ideapit_net = function() {
 		$("#hiden_content").show();
 		
 		debug("Not Ajax just hidden content & Changed Content");
+	}
+};
+
+var easybuzzz_fr = function() {
+	debug("Init easybuzzz class");
+	
+	this.run = function() {
+		debug("Start run");
+		
+		var lines = $("script:not(script[src]):contains(edge.create)").text().split("\n");
+		
+		$.each(lines, function(index, line) {
+			var matchs = line.match(/var cc = '(.*)'/);
+			if (matchs !== null) {
+				debug(matchs[1]);
+				
+				$("#over").remove();
+				$("#vid_real").html(matchs[1]);
+				
+				debug("Not Ajax just parse coding & Changed Content");
+			}
+		});
 	}
 };
 

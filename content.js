@@ -1,12 +1,12 @@
 /*
  * Author  : Zeuxis Lo (http://zeuxis.me)
- * Version : 0.2.2
+ * Version : 0.2.4
  * Create  : 2011-03-14 14:07
- * Modified: 2011-03-27 10:54
+ * Modified: 2011-03-29 11:44
  */
 
-// Configure
-DEBUG = false;
+// Configure (Because optional page added, so commented)
+//var DEBUG = false;
 
 // Helper
 function debug(message) {
@@ -28,9 +28,17 @@ function ajax_it(url, data, data_type) {
 	});	
 }
 
+function is_subdomain(hosts) {
+	if (/mypagediy/.test(hosts) === true) {
+		hosts[0] = hosts[1] + "." + hosts[2];
+	}
+	
+	return hosts;
+}
+
 // Class
 var getjetso_com = function() {
-	debug('Init getjetso class');
+	debug('Init getjetso_com class');
 	
 	this.run = function() {
 		debug('Strat run');
@@ -56,7 +64,7 @@ var getjetso_com = function() {
 };
 
 var tenkucity_com = function() {
-	debug('Init tenkucity class');
+	debug('Init tenkucity_com class');
 	
 	this.run = function() {
 		debug('Strat run');
@@ -83,7 +91,7 @@ var tenkucity_com = function() {
 };
 
 var jkforum_net = function() {
-	debug('Init jkforum class');
+	debug('Init jkforum_net class');
 	
 	this.run = function() {
 		debug('Strat run');
@@ -110,7 +118,7 @@ var jkforum_net = function() {
 };
 
 var mypagediy_com = function() {
-	debug('Init mypagediy class');
+	debug('Init mypagediy_com class');
 	
 	this.run = function() {
 		debug('Strat run');
@@ -122,7 +130,7 @@ var mypagediy_com = function() {
 };
 
 var ideapit_net = function() {
-	debug('Init ideapit class');
+	debug('Init ideapit_net class');
 	
 	this.run = function() {
 		debug('Strat run');
@@ -134,7 +142,7 @@ var ideapit_net = function() {
 };
 
 var easybuzzz_fr = function() {
-	debug("Init easybuzzz class");
+	debug("Init easybuzzz_fr class");
 	
 	this.run = function() {
 		debug("Start run");
@@ -155,17 +163,42 @@ var easybuzzz_fr = function() {
 	}
 };
 
-(function($) {
+var akzone_com_hk = function() {
+	debug("Init akzone_com_hk class");
+	
+	this.run = function() {
+		debug("Start run");
+		
+		var url = window.location.href;
+		var id = url.match(/id=(\d+)/)[1];
+		
+		debug("URL: " + url)
+		debug("ID: " + id)
+		
+		$.get("http://akzone.com.hk/fb_like.php", {
+			"zone": "forum",
+			"id": id,
+			"url": url	
+		}, function(html) {
+			window.location.reload();
+		});
+	}
+	
+};
+
+(function($) {	
 	
 	debug("Start JetIt");
 	
 	try {
 		var hosts = window.location.host.match(/^(?:[0-9a-zA-Z]+\.)?([0-9a-zA-Z]+)\.([0-9a-zA-Z]+)/);
-		var class_name = hosts[1] + "_" + hosts[2];
-		var instance = new window[class_name]();
-	
-		debug(hosts);
+		hosts = is_subdomain(hosts);
+		debug(hosts)
+		
+		var class_name = hosts[0].replace(/\./g, "_"); 
 		debug(class_name);
+		
+		var instance = new window[class_name](); 
 		debug(instance);
 	
 		instance.run();

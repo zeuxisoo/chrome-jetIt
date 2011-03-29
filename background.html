@@ -1,8 +1,24 @@
-<script language="javascript" type="text/javascript" src="jquery.js"></script>
+<script language="javascript" type="text/javascript" src="storage.js"></script>
 <script language="javascript" type="text/javascript">
+chrome.browserAction.setTitle({
+	title: "JetIt " + (function get_version() {
+		var version = 'NaN';
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', chrome.extension.getURL('manifest.json'), false);
+		xhr.send(null);
+		var manifest = JSON.parse(xhr.responseText);
+		return manifest.version;
+	})()
+});
+
 chrome.browserAction.onClicked.addListener(function(tab) {
-	console.log("JetIt Run on background");
+	var debug = Storage.get("debug") == 1;
+	
+	console.log("JetIt Run in background");
+	console.log("Debug status: " + debug);
+	
 	chrome.tabs.executeScript(tab.id, {file: 'jquery.js'});
+	chrome.tabs.executeScript(tab.id, {code: 'DEBUG = ' + debug});
 	chrome.tabs.executeScript(tab.id, {file: 'content.js'});
 });
 </script>

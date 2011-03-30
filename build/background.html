@@ -18,6 +18,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 	console.log("Debug status: " + debug);
 	
 	chrome.tabs.executeScript(tab.id, {file: 'jquery.js'});
+	chrome.tabs.executeScript(tab.id, {file: 'jquery.cookie.js'});
 	chrome.tabs.executeScript(tab.id, {code: 'DEBUG = ' + debug});
 	chrome.tabs.executeScript(tab.id, {file: 'content.js'});
 });

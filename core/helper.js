@@ -18,7 +18,7 @@ function ajax_it(url, data, data_type) {
 }
 
 function clear_subdomain(hosts) {
-	if (/mypagediy|17t17p/.test(hosts) === true) {
+	if (/mypagediy|17t17p|livdig/.test(hosts) === true) {
 		hosts.shift();
 	}
 	

@@ -30,6 +30,13 @@ def merge_to_content_js():
 	content.write('\n'.join([header, helper, site, booter]))
 	content.close()
 	
+def merge_to_all_in_one_js():
+	all_in_one = "\n".join([open("./strip/" + core, "r").read() for core in ["jquery.js", "content.js"]])
+	
+	f = open("./build/all_in_one.js", "w+")
+	f.write(all_in_one)
+	f.close()
+	
 def recursive_zip(zipf, directory, folder = ""):
 	for item in os.listdir(directory):
 		print("  adding: %s" % str(item))
@@ -60,6 +67,7 @@ class Build(threading.Thread):
 				if name[:1] != ".":
 					if name not in self.all_files_modified_time:
 						merge_to_content_js()
+						merge_to_all_in_one_js()
 						
 						print("[added] %s" % name)
 						
@@ -73,6 +81,7 @@ class Build(threading.Thread):
 				del self.all_files_modified_time[file_name]
 				
 				merge_to_content_js()
+				merge_to_all_in_one_js()
 				
 				print("[deleted] %s" % file_name)
 
@@ -89,6 +98,7 @@ class Build(threading.Thread):
 					if (new_time > old_time):
 						print("[Changed] %s (%s)" % (file_name, time.strftime("%H:%M:%S",time.localtime(new_time))))
 						merge_to_content_js()
+						merge_to_all_in_one_js()
 						
 				self.fetch_modified_time()
 				self.remove_deleted_file()
@@ -153,12 +163,7 @@ if __name__ == "__main__":
 			js_zip("./core/" + helper, "./build/" + helper)
 			print("  packaging: " + helper)
 	elif options.strip:
-		all_in_one = "\n".join([open("./strip/" + core, "r").read() for core in ["jquery.js", "content.js"]])
-		
-		f = open("./build/all_in_one.js", "w+")
-		f.write(all_in_one)
-		f.close()
-		
+		merge_to_all_in_one_js()
 		print("all_in_one.js created")
 	elif options.identity:
 		version_code = str(options.identity)

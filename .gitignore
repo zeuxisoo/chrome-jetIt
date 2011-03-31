@@ -4,3 +4,7 @@
 .hg/*
 .hgignore
 build/content.js
+build/jquery.js
+build/manifest.json
+build/all_in_one.js
+build/storage.js

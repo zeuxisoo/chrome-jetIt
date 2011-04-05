@@ -17,7 +17,13 @@
 		instance.run();
 	}catch(e) {
 		if (DEBUG === false) {
-			alert("Not Supported site");
+			alert("Smart Search Enabled...Please check it work or not work after 20min!");
+			
+			(function(s){
+				s.type = 'text/javascript';
+				s.src = chrome.extension.getURL('smart.js');
+				(document.getElementsByTagName("head").item(0)||document.body).appendChild(s);
+			})(document.createElement('script'));
 		}else{
 			debug(e);	
 		}

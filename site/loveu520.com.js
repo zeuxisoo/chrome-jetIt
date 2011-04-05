@@ -4,7 +4,7 @@ var loveu520_com = function() {
 	this.run = function() {
 		debug('Strat run');
     
-		var tid = window.location.href.match(/thread\-(\d+)\-/)[1];
+		var tid = window.location.href.match(/tid=(\d+)&/)[1];
     
 		debug("tid: " + tid);
     
